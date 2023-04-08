@@ -1,5 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+package programmers;
 
 public class Hanbeonman {
     public static void main(String[] args) {

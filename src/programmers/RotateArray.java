@@ -1,4 +1,5 @@
-import java.util.Arrays;
+package programmers;
+
 import java.util.LinkedList;
 
 public class RotateArray {
