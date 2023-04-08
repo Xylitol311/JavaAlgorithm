@@ -163,4 +163,4 @@ Temporary Items
 .apdisk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,intellij
-src/zero_base
+src/zero_base/
