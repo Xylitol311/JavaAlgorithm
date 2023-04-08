@@ -1,4 +1,4 @@
-package bronze;
+package baekjoon;
 
 import java.io.*;
 import java.util.LinkedList;
