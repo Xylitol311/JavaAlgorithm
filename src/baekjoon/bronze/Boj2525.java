@@ -13,12 +13,10 @@ public class Boj2525 {
         int minute = Integer.parseInt(st.nextToken());
         int wait = Integer.parseInt(br.readLine());
 
-        minute += wait;
-        if (minute > 60) {
-            hour += minute / 60;
-            hour %= 24;
-            minute %= 60;
-        }
+        int min = hour * 60 + minute;
+        min += wait;
+        hour = (min / 60) % 24;
+        minute = min % 60;
         System.out.println(hour + " " + minute);
     }
 }
