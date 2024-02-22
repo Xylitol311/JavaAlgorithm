@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class BOJ5613 { // 계산기 프로그램
+public class Boj5613 { // 계산기 프로그램
 
     public static void main(String[] args) throws IOException {
 
