@@ -8,7 +8,7 @@ public class DevelopFunction {
     public static int[] solution(int[] progresses, int[] speeds) {
         Queue<Integer> queue = new LinkedList<>();
         for(int i = 0; i < progresses.length; i++){
-            queue.add((int) Math.ceil((100 - progresses[i]) / speeds[i]));
+            queue.add((int) Math.ceil((100 - progresses[i]) / (double) speeds[i]));
         }
 
         List<Integer> answer = new ArrayList<>();
