@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 
 public class Boj24174 {
     public static int cnt = 0, target = 0; // cnt: 교환한 횟수, target: 배열을 출력할 횟수
-    public static int[] output;
     public static boolean isOut = false; // cnt가 K에 도달하기 전에 모든 교환이 끝났음을 확인할 변수
 
     public static void main(String[] args) throws IOException {
