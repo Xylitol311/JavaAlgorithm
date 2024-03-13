@@ -4,37 +4,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MathIsHard {
+public class WorkoutClothes {
     public static void main(String[] args) {
 //        solution(new int[]{1,2,3,4,5});
 //        System.out.println("정답은 " + Arrays.toString(solution(new int[]{4,4,4,5,3})));
     }
-    public static int[] solution(int[] answers) {
-        int[] answer;
+    public int solution(int n, int[] lost, int[] reserve) {
+        int answer = 0;
 
-        int[] no1 = new int[]{1,2,3,4,5};
-        int[] no2 = new int[]{2,1,2,3,2,4,2,5};
-        int[] no3 = new int[]{3,3,1,1,2,2,4,4,5,5};
+        Arrays.sort(reserve);
+        Arrays.sort(lost);
 
-        int[] score = new int[3];
+        // 도난 당하지 않은 학생 수
+        answer = n - lost.length;
 
-        for (int i = 0; i < answers.length; i++){
-            if (no1[i % no1.length] == answers[i]) score[0]++;
-
-            if (no2[i % no2.length] == answers[i]) score[1]++;
-
-            if (no3[i % no3.length] == answers[i]) score[2]++;
+        // 여벌 체육복을 가져왔지만 도난당한 학생 수
+        // 다른 학생에게 체육복을 빌려줄 수 없음
+        for (int i = 0; i < lost.length; i++) {
+            for (int j = 0; j < reserve.length; j++) {
+                if (lost[i] == reserve[j]) {
+                    answer++;
+                    lost[i] = -1;
+                    reserve[j] = -1;
+                    break;
+                }
+            }
         }
 
-        int max = Math.max(score[0], Math.max(score[1], score[2]));
-
-        List<Integer> result = new ArrayList<>();
-
-        for (int i = 0; i < score.length; i++) {
-            if (score[i] == max) result.add(i + 1);
+        // 도난당했지만 체육복을 빌릴 수 있는 학생 수
+        for (int i = 0; i < lost.length; i++) {
+            for (int j = 0; j < reserve.length; j++) {
+                if (lost[i] - 1 == reserve[j] || lost[i] + 1 == reserve[j]) {
+                    answer++;
+                    reserve[j] = -1;
+                    break;
+                }
+            }
         }
-
-        answer = result.stream().mapToInt(Integer::intValue).toArray();
 
         return answer;
     }
