@@ -1,53 +1,47 @@
 package baekjoon;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.function.Function;
 
 public class Boj11581 {
-    private static final String CYCLE = "CYCLE";
-    private static final String NOT_CYCLE = "NO CYCLE";
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        Function<String,Integer> stoi = Integer::parseInt;
-        int n = stoi.apply(st.nextToken());
-        List<Integer>[] map = new List[n+1];
-        for(int i = 1 ; i < n ; i++){
-            map[i] = new LinkedList<>();
-            int num = stoi.apply(br.readLine());
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0 ; j < num ; j++){
-                int next = stoi.apply(st.nextToken());
-                map[i].add(next);
+        int N = Integer.parseInt(br.readLine());
+        boolean[][] graph = new boolean[N + 1][N + 1];
+
+        // 그래프 초기화
+        for (int i = 1; i < N; i++) {
+            int linkNum = Integer.parseInt(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < linkNum; j++) {
+                int num = Integer.parseInt(st.nextToken());
+                graph[i][num] = true;
             }
         }
-        boolean[] visited = new boolean[n+1];
-        if(!detectCycle(map,1,visited,n)){
-            System.out.println(CYCLE);
-        }else{
-            System.out.println(NOT_CYCLE);
-        }
-    }
-    private static boolean detectCycle(List<Integer>[] map,int now,boolean[] visited, int n){
-        if(now == n){
-            return true;
-        }
-        visited[now] = true;
-        boolean result = true;
-        for(int i = 0 ; i < map[now].size() ; i++){
-            int next = map[now].get(i);
-            if(visited[next]){
-                return false;
-            }
-            if(!detectCycle(map,next,visited,n)){
-                result = false;
+
+        //플로이드 워셜
+        for (int transit = 1; transit < N; transit++) {
+            for (int start = 1; start < N; start++) {
+                if (!graph[start][transit]) {
+                    continue;
+                }
+                for (int end = 1; end < N; end++) {
+                    if(graph[transit][end]) {
+                        graph[start][end] = true;
+                    }
+                }
             }
         }
-        visited[now] = false;
-        return result;
+
+        // 1번 노드와 연결된 사이클 유무 검증
+        for (int i = 1; i < N; i++) {
+            if (graph[1][i] && graph[i][i]) {
+                System.out.println("CYCLE");
+                return;
+            }
+        }
+        System.out.println("NO CYCLE");
     }
 }
