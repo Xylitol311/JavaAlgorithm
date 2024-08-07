@@ -3,8 +3,13 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String str = sc.next();
-		int idx = sc.nextInt();
-		System.out.println(str.charAt(idx - 1));
+		
+		String word= sc.nextLine();
+		int n = sc.nextInt();
+		
+		char ans = word.charAt(n-1);
+		System.out.println(ans);
+
 	}
+
 }
