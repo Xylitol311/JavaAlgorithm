@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
+
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -10,8 +12,6 @@ public class Main {
 
     static int vertexNum;
     static int[] parents;
-    static Edge[] edges;
-
     static long answer;
 
     // union-find
@@ -38,6 +38,28 @@ public class Main {
         return true;
     }
 
+    static PriorityQueue<Edge> pq;
+    static int edgeNum;
+    // input
+    static void input() throws IOException {
+        st = new StringTokenizer(br.readLine());
+        vertexNum = Integer.parseInt(st.nextToken());
+        edgeNum = Integer.parseInt(st.nextToken());
+        answer = 0;
+
+        pq = new PriorityQueue<>();
+
+        // 간선 입력
+        for (int i = 0; i < edgeNum; i++) {
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            int weight = Integer.parseInt(st.nextToken());
+            pq.add(new Edge(start - 1, end - 1, weight));
+        }
+
+    }
+
     // main solution
     public static void main(String[] args) throws IOException {
         input();
@@ -50,35 +72,14 @@ public class Main {
 
         int cnt = 0;
 
-        for (Edge edge : edges) {
+        while (true) {
+            Edge edge = pq.poll();
             if (union(edge.start, edge.end)) {
                 answer += edge.weight;
                 if (++cnt == vertexNum - 1)
                     break;
             }
         }
-    }
-
-    // input
-    static void input() throws IOException {
-        st = new StringTokenizer(br.readLine());
-        vertexNum = Integer.parseInt(st.nextToken());
-        int edgeNum = Integer.parseInt(st.nextToken());
-        answer = 0;
-
-        edges = new Edge[edgeNum];
-
-        // 간선 입력
-        for (int i = 0; i < edgeNum; i++) {
-            st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
-            edges[i] = new Edge(start - 1, end - 1, weight);
-        }
-
-        // 간선 가중치 기준 오름차순 정렬
-        Arrays.sort(edges);
     }
 
     static class Edge implements Comparable<Edge> {
