@@ -233,11 +233,16 @@ public class Solution {
 				}
 			}
 		}
-		for (Customer customer : waitInfo) {
-			if (customer.arrivedTime <= time) {
+		for (int idx = 1; idx <= customerSize; idx++) {
+			Customer customer = customers[idx];
+			if(!customer.completeInfo && !customer.inTask &&customer.arrivedTime <= time)
 				customer.possibleTime++;
-			}
 		}
+//		for (Customer customer : waitInfo) {
+//			if (customer.arrivedTime <= time) {
+//				customer.possibleTime++;
+//			}
+//		}
 	}
 	
 	private static void removeCustomerAtRepair() {
@@ -272,10 +277,17 @@ public class Solution {
 				}
 			}
 		}
-		for (Customer customer : waitRepair) {
-			if (customer.arrivedTime <= time) {
+		
+		for (int idx = 1; idx <= customerSize; idx++) {
+			Customer customer = customers[idx];
+			if (customer.completeInfo && !customer.completeRepair && !customer.inTask && customer.arrivedTime <= time)
 				customer.possibleTime++;
-			}
 		}
+		
+//		for (Customer customer : waitRepair) {
+//			if (customer.arrivedTime <= time) {
+//				customer.possibleTime++;
+//			}
+//		}
 	}
 }
