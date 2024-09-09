@@ -1,7 +1,6 @@
 package sw_expert.solved;
 
 import java.util.Scanner;
-import java.io.FileInputStream;
 public class d2_1859 {
     public static void main(String args[]) throws Exception
     {

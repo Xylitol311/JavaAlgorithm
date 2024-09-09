@@ -1,7 +1,5 @@
 package programmers.solved;
 
-import java.util.Arrays;
-
 public class DeckOfCards {
     public static void main(String[] args) {
 //        DoubleArray sol = new DoubleArray();

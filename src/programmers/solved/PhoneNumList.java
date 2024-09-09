@@ -1,6 +1,6 @@
 package programmers.solved;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class PhoneNumList {
     public static void main(String[] args) {

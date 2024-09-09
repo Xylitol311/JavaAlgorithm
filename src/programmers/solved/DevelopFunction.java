@@ -1,6 +1,9 @@
 package programmers.solved;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 public class DevelopFunction {
     public static void main(String[] args) {
         solution(new int[]{95, 90, 99, 99, 80, 99}, new int[]{1, 1, 1, 1, 1, 1});

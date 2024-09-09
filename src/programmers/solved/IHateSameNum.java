@@ -1,6 +1,7 @@
 package programmers.solved;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IHateSameNum {
     public static void main(String[] args) {
