@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 297192 KB, 시간: 1268 ms
+메모리: 209996 KB, 시간: 396 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2024년 9월 25일 02:38:51
+2024년 9월 25일 20:28:41
 
 ### 문제 설명
 
@@ -24,19 +24,19 @@
 	<li>5×5 크기의 판이 5개 주어진다. 이중 일부 칸은 참가자가 들어갈 수 있고 일부 칸은 참가자가 들어갈 수 없다. 그림에서 하얀 칸은 참가자가 들어갈 수 있는 칸을, 검은 칸은 참가자가 들어갈 수 없는 칸을 의미한다.</li>
 </ul>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 960px; height: 146px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/cd5b0b7c-6030-4c55-8776-2c7561cd5a73/-/preview/" style="width: 960px; height: 146px;"></p>
 
 <ul>
 	<li>참가자는 주어진 판들을 시계 방향, 혹은 반시계 방향으로 자유롭게 회전할 수 있다. 그러나 판을 뒤집을 수는 없다.</li>
 </ul>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 960px; height: 161px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/30dd4bb6-660a-4294-8dc3-a7cc348c307e/-/preview/" style="width: 960px; height: 161px;"></p>
 
 <ul>
 	<li>회전을 완료한 후 참가자는 판 5개를 쌓는다. 판을 쌓는 순서는 참가자가 자유롭게 정할 수 있다. 이렇게 판 5개를 쌓아 만들어진 5×5×5 크기의 큐브가 바로 참가자를 위한 미로이다. 이 때 큐브의 입구는 정육면체에서 참가자가 임의로 선택한 꼭짓점에 위치한 칸이고 출구는 입구와 면을 공유하지 않는 꼭짓점에 위치한 칸이다.</li>
 </ul>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 600px; height: 567px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/6b66d051-d9fa-43a1-8cf1-53a635f9217d/-/preview/" style="width: 600px; height: 567px;"></p>
 
 <ul>
 	<li>참가자는 현재 위치한 칸에서 면으로 인접한 칸이 참가자가 들어갈 수 있는 칸인 경우 그 칸으로 이동할 수 있다.</li>
