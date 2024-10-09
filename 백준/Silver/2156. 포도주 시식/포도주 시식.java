@@ -1,4 +1,4 @@
-// 메모리: 00000 KB / 시간: 00 ms
+// 메모리: 13308 KB / 시간: 88 ms
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,11 +39,15 @@ public class Main {
     }
 
     private static void solution() {
+        // 첫번째는 자기 자신을 넣은 게 최대
         dp[1] = wines[1];
+        
+        // 두번째는 자기 자신과 바로 전을 마신 게 최대
         if (N > 1) {
             dp[2] = wines[1] + wines[2];
         }
 
+        // 여기부터 OXO, XOO, OOX 세 가지 경우 중 큰 수로 저장
         for (int i = 3; i <= N; i++) {
             dp[i] = Math.max(dp[i - 1], Math.max(dp[i - 2] + wines[i], dp[i - 3] + wines[i - 1] + wines[i]));
         }
