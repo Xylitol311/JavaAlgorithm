@@ -1,9 +1,10 @@
-// 메모리: 00000 KB / 시간: 00 ms
+// 메모리: 12220 KB / 시간: 228 ms
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+
 /*
 dfs를 통해 모든 도시를 탐색하고 마지막 도시에서 시작 지점으로 돌아오는 경로의 가중치를 더한다.
 모든 경로마다 더해진 가중치 중 최솟값을 출력
@@ -32,20 +33,19 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         input();
-
         // solution
         for (int i = 0; i < N; i++) {
-            visited[i] = true;
-            solve(i, i, 0, 0);
-            visited[i] = false;
+            solve(i, i, 0, 1 << i);
         }
 
         // print
         System.out.println(result);
     }
 
-    private static void solve(int start, int now, int depth, int sum) {
-        if (depth == N - 1) {
+    private static void solve(int start, int now, int sum, int isVisit) {
+        if (sum > result) return;
+
+        if (Integer.bitCount(isVisit) == N) {
             // 마지막 도시에서 처음으로 갈 수 있다면 그 경로를 추가해서 최솟값 갱신
             if (city[now][start] != 0) {
                 sum += city[now][start];
@@ -56,10 +56,8 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             // 방문하지 않은 도시이고 현재 도시에서 갈 수 있는 경로가 있는 경우
-            if (!visited[i] && city[now][i] > 0) {
-                visited[i] = true;
-                solve(start, i, depth + 1, sum + city[now][i]);
-                visited[i] = false;
+            if ((isVisit & 1 << i) == 0 && city[now][i] > 0) {
+                solve(start, i, sum + city[now][i], isVisit | 1 << i);
             }
         }
     }
