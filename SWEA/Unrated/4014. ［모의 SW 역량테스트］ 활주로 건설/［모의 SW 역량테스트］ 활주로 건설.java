@@ -10,7 +10,16 @@ import java.util.StringTokenizer;
 - 높낮이 차이가 2 이상인 경우
 - 활주로를 만들만한 충분한 공간이 없는 경우 (x가 2일 때, 층이 바뀌고 낮은 곳의 길이가 2보다 작은 경우)
 - 내리막 활주로를 만든 직후 높은 층이 나온 경우(오르막 활주로를 만들 공간이 없음)
-- 내리막 활주로가 완성되지 않았는데 오르막이 나오거나 배열이 끝난 경우
+- 내리막 활주로가 완성되지 않았는데 배열이 종료되거나 층이 달라지는 경우
+
+방법
+1. 모든 데이터 입력
+2. 행과 열을 각각 탐색하면서 활주로 건설이 가능한 경우 cnt 추가
+	- 첫 번째 값이 경우 stack을 1로 설정 후 continue
+	- 이전과 같은 높이일 경우
+		- stack 하나 추가.
+		- 내리막이면서 stack이 활주로 길이와 같아지면 내리막 체크 해제 후 stack을 1로 초기화
+		- 내
  */
 
 public class Solution {
@@ -96,11 +105,6 @@ public class Solution {
 					stack = 0;
 					downhill = false;
 				}
-				// 마지막 칸인데 내리막 경사로가 다 완성되지 않은 경우 활주로 불가
-				if (downhill && col == fieldLength - 1) {
-					possibleRunway = false;
-					break;
-				}
 				continue;
 			}
 
@@ -163,11 +167,6 @@ public class Solution {
 				if (downhill && stack == runway) {
 					stack = 0;
 					downhill = false;
-				}
-				// 마지막 칸인데 내리막 경사로가 다 완성되지 않은 경우 활주로 불가
-				if (downhill && row == fieldLength - 1) {
-					possibleRunway = false;
-					break;
 				}
 				continue;
 			}
