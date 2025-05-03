@@ -23,14 +23,10 @@ public class Main {
 
 		field = new char[N][M];
 		dp = new int[N][M];
-
+		
 		for (int i = 0; i < N; i++) {
-			String s = br.readLine();
-			for (int j = 0; j < M; j++) {
-				field[i][j] = s.charAt(j);
-			}
-		}
-
+            field[i] = br.readLine().toCharArray();
+        }
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -39,44 +35,32 @@ public class Main {
 	}
 
 	private static int solution() {
-		for (int i = N - 1; i >= 0; i--) {
-			for (int j = M - 1; j >= 0; j--) {
-				// N-1, M-1이면 무조건 1
-				if (i == N - 1 && j == M - 1) {
-					dp[i][j] = 1;
-					continue;
-				}
-				// E,S,B 확인
-				switch (field[i][j]) {
-				case 'E':
-					if (j < M - 1) {
-						dp[i][j] = (dp[i][j] + dp[i][j + 1]) % MOD;
-					}
-					break;
-				case 'S':
-					if (i < N - 1) {
-						dp[i][j] = (dp[i][j] + dp[i + 1][j]) % MOD;
-					}
-					break;
-				case 'B':
-					if (i < N - 1) {
-						dp[i][j] = (dp[i][j] + dp[i + 1][j]) % MOD;
-					}
-					if (j < M - 1) {
-						dp[i][j] = (dp[i][j] + dp[i][j + 1]) % MOD;
-					}
-					break;
-				}
-			}
-		}
+		int[][] dp = new int[N][M];
+        dp[N-1][M-1] = 1;  // 도착점
 
-		int result = 0;
+        // 거꾸로 돌면서 각 칸에서의 경로 수를 채워나감
+        for (int i = N - 1; i >= 0; i--) {
+            for (int j = M - 1; j >= 0; j--) {
+                if (i == N - 1 && j == M - 1) continue;
+                char c = field[i][j];
+                // 오른쪽 이동 (E 또는 B)
+                if (c != 'S' && j + 1 < M) {
+                    dp[i][j] = (dp[i][j] + dp[i][j + 1]) % MOD;
+                }
+                // 아래 이동 (S 또는 B)
+                if (c != 'E' && i + 1 < N) {
+                    dp[i][j] = (dp[i][j] + dp[i + 1][j]) % MOD;
+                }
+            }
+        }
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				result = (result + dp[i][j]) % MOD;
-			}
-		}
-		return result;
+        // 모든 시작 지점에서의 경로 합산
+        int result = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                result = (result + dp[i][j]) % MOD;
+            }
+        }
+        return result;
 	}
 }
