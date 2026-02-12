@@ -3,58 +3,36 @@ class Solution {
         int answer = 0;
         int n = schedules.length;
         
-        // 각 직원별로 체크 시작
-        for (int i = 0; i < n; i++) {
-            // 출근 인정 시각 계산 (희망 시각 + 10분)
-            int deadline = addMinutes(schedules[i], 10);
-            
-            boolean isOnTime = true;
-            
-            // 7일 동안 체크
+        // 이벤트 시작일자에 따라 일차별 평일/주말 판별
+        int saturday = (7 - startday == 0) ? 7 : 7 - startday;
+        int sunday = 7 - startday + 1;
+        
+        // 직원별로 평일 출근 시간을 체크.
+        for (int cow = 0; cow < n; cow++){
+            // 데드라인
+            int deadline = calDeadline(schedules[cow]);
+            boolean isWinner = true;
+            // 일자별로 근무일인지, 정상출근했는지 확인
             for (int day = 0; day < 7; day++) {
-                int dayOfWeek = getDayOfWeek(startday, day);
+                // 근무일 확인
+                if (day + 1 == saturday || day + 1 == sunday) continue;
                 
-                // 평일만 체크 (토요일 6, 일요일 7 제외)
-                if (isWeekday(dayOfWeek)) {
-                    // 실제 출근 시각이 인정 시각보다 늦으면 탈락
-                    if (timelogs[i][day] > deadline) {
-                        isOnTime = false;
-                        break;
-                    }
+                // 정상 출근 확인
+                if (timelogs[cow][day] > deadline) {
+                    isWinner = false;
+                    break;
                 }
             }
-            
-            if (isOnTime) {
-                answer++;
-            }
+            if (isWinner) answer++;
         }
         
         return answer;
     }
-    
-    // 특정 날짜의 요일을 반환 (1=월, 2=화, ..., 7=일)
-    private int getDayOfWeek(int startday, int day) {
-        return (startday + day - 1) % 7 + 1;
-    }
-    
-    // 평일인지 확인 (토요일 6, 일요일 7 제외)
-    private boolean isWeekday(int dayOfWeek) {
-        return dayOfWeek >= 1 && dayOfWeek <= 5;
-    }
-    
-    // 시각에 분을 더하는 함수
-    private int addMinutes(int time, int minutes) {
-        int hour = time / 100;
-        int min = time % 100;
+
+    // 정상출근 기한 계산 함수
+    private int calDeadline(int setDead) {
+        int result = setDead + 10;
         
-        min += minutes;
-        
-        // 60분 이상이면 시간 증가
-        if (min >= 60) {
-            hour += min / 60;
-            min = min % 60;
-        }
-        
-        return hour * 100 + min;
+        return (result % 100 >= 60) ? result + 40 : result;
     }
 }
