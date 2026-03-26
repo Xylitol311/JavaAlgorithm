@@ -1,94 +1,79 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
 
     static int N, M, K, X;
-    static List<Integer>[] graph;
-    static int[] distance;
+
+    static List<List<Integer>> graph;
 
     private static void input() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        st = new StringTokenizer(br.readLine());
 
-        // 변수 초기화
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         X = Integer.parseInt(st.nextToken());
 
-        // 그래프, 거리 저장 배열 초기화
-        graph = new ArrayList[N + 1];
-        distance = new int[N + 1];
-
-        for (int i = 1; i < N + 1; i++) {
-            graph[i] = new ArrayList();
-            distance[i] = -1; // 경로가 존재하지 않는 경우를 대비해 -1
+        graph = new ArrayList<>();
+        for (int i = 0; i <= N; i++) {
+            graph.add(new ArrayList<>());
         }
 
-        // 그래프 입력
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            graph[start].add(end);
-        }
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
 
+            graph.get(A).add(B);
+        }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         input();
-        solution();
+        bfs(X);
         System.out.println(sb.toString());
     }
 
-    private static void solution() {
-        // 최단 경로 계산
-        bfs(X);
+    private static void bfs(int start) {
+        boolean[] visited = new boolean[N + 1];
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{start, 0});
+        visited[start] = true;
 
-        // 출발점에서 K만큼의 거리인 목적지 구하기
-        List<Integer> result = new ArrayList();
+        List<Integer> result = new ArrayList<>();
 
-        for (int i = 1; i <= N; i++) {
-            if (distance[i] == K) {
-                result.add(i);
+        while (!queue.isEmpty()) {
+            int[] now = queue.poll();
+
+            if (now[1] == K) {
+                result.add(now[0]);
+                continue;
             }
-        }
 
-        if (result.isEmpty()) {
-            sb.append(-1);
-            return;
+            if (now[1] > K) continue;
+
+            List<Integer> nowNode = graph.get(now[0]);
+
+            for (int next : nowNode) {
+                if (visited[next]) continue;
+                queue.add(new int[]{next, now[1] + 1});
+                visited[next] = true;
+            }
         }
 
         Collections.sort(result);
-        for (int num : result) {
-            sb.append(num).append("\n");
-        }
-
-    }
-
-    private static void bfs(int start) {
-        Queue<Integer> queue = new ArrayDeque();
-        queue.add(start);
-        distance[start] = 0; // 출발점의 경로는 0
-
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
-
-            for (int next : graph[current]) {
-                if (distance[next] == -1) { // 방문하지 않은 경우에만 진행
-                    distance[next] = distance[current] + 1;
-                    queue.add(next);
-                }
+        if (result.size() == 0) {
+            sb.append(-1);
+        } else {
+            for (int num : result) {
+                sb.append(num + "\n");
             }
+            
         }
+
     }
 }
