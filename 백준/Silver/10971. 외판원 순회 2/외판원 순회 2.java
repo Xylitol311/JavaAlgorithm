@@ -1,64 +1,53 @@
-// 메모리: 12220 KB / 시간: 228 ms
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-/*
-dfs를 통해 모든 도시를 탐색하고 마지막 도시에서 시작 지점으로 돌아오는 경로의 가중치를 더한다.
-모든 경로마다 더해진 가중치 중 최솟값을 출력
- */
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
 
-    static int N, result, city[][];
-    static boolean[] visited;
+    static int N, result;
+    static int[][] map;
 
     private static void input() throws IOException {
         N = Integer.parseInt(br.readLine());
-        city = new int[N][N];
-        visited = new boolean[N];
         result = Integer.MAX_VALUE;
-
+        map = new int[N][N];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine().trim());
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                city[i][j] = Integer.parseInt(st.nextToken());
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         input();
-        // solution
-        for (int i = 0; i < N; i++) {
-            solve(i, i, 0, 1 << i);
-        }
-
-        // print
+        dfs(0, 0, 0, 1);
         System.out.println(result);
     }
 
-    private static void solve(int start, int now, int sum, int isVisit) {
+    private static void dfs(int startCity, int nowCity, int sum, int isVisit) {
+        // 현재까지의 누적 비용이 이전 최저 비용보다 클 경우 취소(더 볼 필요 없음)
         if (sum > result) return;
 
-        if (Integer.bitCount(isVisit) == N) {
-            // 마지막 도시에서 처음으로 갈 수 있다면 그 경로를 추가해서 최솟값 갱신
-            if (city[now][start] != 0) {
-                sum += city[now][start];
+        // 전체 다 방문?
+        if (isVisit == (1 << N) - 1) {
+            // 돌아갈 수 있다면
+            if (map[nowCity][startCity] != 0) {
+                sum += map[nowCity][startCity];
                 result = Math.min(result, sum);
             }
             return;
         }
 
+        // 다음 도시 방문
         for (int i = 0; i < N; i++) {
-            // 방문하지 않은 도시이고 현재 도시에서 갈 수 있는 경로가 있는 경우
-            if ((isVisit & 1 << i) == 0 && city[now][i] > 0) {
-                solve(start, i, sum + city[now][i], isVisit | 1 << i);
-            }
+            // 아직 방문하지 않은 곳만
+            if ((isVisit & 1 << i) != 0 || map[nowCity][i] == 0) continue;
+            dfs(startCity, i, sum + map[nowCity][i], isVisit | 1 << i);
         }
     }
 }
