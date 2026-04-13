@@ -42,8 +42,6 @@ public class Main {
         for (int visited = 0; visited < (1 << N); visited++) {
             // 현재도시
             for (int city = 0; city < N; city++) {
-                // 방문한 적도 없는데 현재 도시에 있는 게 말이 안됨
-                if ((visited & 1 << city) == 0) continue;
                 // 0부터 차근차근 방문여부를 기준으로 체크하는데 INF인 경우는 이전에 방문을 못했다는 얘기이므로 통과.
                 if (dp[visited][city] == Integer.MAX_VALUE) continue;
 
